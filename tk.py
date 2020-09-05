@@ -74,41 +74,94 @@ def hourly():
 	geo_request = requests.get(geo_address)
 	geo_api = json.loads(geo_request.content)
 
+	print(geo_address)
+
 	lat_coordinates = geo_api["results"][0]["locations"][0]["latLng"]["lat"]
 	long_coordinates = geo_api["results"][0]["locations"][0]["latLng"]["lng"]
 
 	request_address = "https://api.openweathermap.org/data/2.5/onecall?lat=" + str(lat_coordinates) + "&lon=" + str(long_coordinates) + "&exclude=minutely,daily&units=metric&appid=0a0699452f695d2f9f82b65af024a134"
 	api_request = requests.get(request_address)
 	api = json.loads(api_request.content) #returns as a string
+	print(api)
 
 	time_store = dict()
 
-	for i in range(5):
+	for i in range(12):
 		time_store[i] = datetime.datetime.fromtimestamp(int(api["hourly"][i]["dt"]))
 	print (time_store)
 
 
 	hour_1_string = str(time_store[0])
-	hour_1 = tk.Label(root, text=hour_1_string[11:16])
+	temp_1_string = int(api["hourly"][0]["temp"])
+	weather_1_string = api["hourly"][0]["weather"][0]["main"]
+	hour_1 = tk.Label(root, text=hour_1_string[11:16] + "	 --> 	" + str(temp_1_string) + "°C " + "with " + str(weather_1_string))
 	hour_1.pack()
 
 	hour_2_string = str(time_store[1])
-	hour_2 = tk.Label(root, text=hour_2_string[11:16])
+	temp_2_string = int(api["hourly"][1]["temp"])
+	weather_2_string = api["hourly"][1]["weather"][0]["main"]
+	hour_2 = tk.Label(root, text=hour_2_string[11:16] + "	 --> 	" + str(temp_2_string) + "°C " + "with " + str(weather_2_string))
 	hour_2.pack()
 
 	hour_3_string = str(time_store[2])
-	hour_3 = tk.Label(root, text=hour_3_string[11:16])
+	temp_3_string = int(api["hourly"][2]["temp"])
+	weather_3_string = api["hourly"][2]["weather"][0]["main"]
+	hour_3 = tk.Label(root, text=hour_3_string[11:16] + "	 --> 	" + str(temp_3_string) + "°C " + "with " + str(weather_3_string))
 	hour_3.pack()
 
 	hour_4_string = str(time_store[3])
-	hour_4 = tk.Label(root, text=hour_4_string[11:16])
+	temp_4_string = int(api["hourly"][3]["temp"])
+	weather_4_string = api["hourly"][3]["weather"][0]["main"]
+	hour_4 = tk.Label(root, text=hour_4_string[11:16] + "	 --> 	" + str(temp_4_string) + "°C " + "with " + str(weather_4_string))
 	hour_4.pack()
 
 	hour_5_string = str(time_store[4])
-	hour_5 = tk.Label(root, text=hour_5_string[11:16])
-	hour_5.grid(row=0, column=0)
+	temp_5_string = int(api["hourly"][4]["temp"])
+	weather_5_string = api["hourly"][4]["weather"][0]["main"]
+	hour_5 = tk.Label(root, text=hour_5_string[11:16] + "	 --> 	" + str(temp_5_string) + "°C " + "with " + str(weather_5_string))
 	hour_5.pack()
 
+	hour_6_string = str(time_store[5])
+	temp_6_string = int(api["hourly"][5]["temp"])
+	weather_6_string = api["hourly"][5]["weather"][0]["main"]
+	hour_6 = tk.Label(root, text=hour_6_string[11:16] + "	 --> 	" + str(temp_6_string) + "°C " + "with " + str(weather_6_string))
+	hour_6.pack()
+
+	hour_7_string = str(time_store[6])
+	temp_7_string = int(api["hourly"][6]["temp"])
+	weather_7_string = api["hourly"][6]["weather"][0]["main"]
+	hour_7 = tk.Label(root, text=hour_7_string[11:16] + "	 --> 	" + str(temp_7_string) + "°C " + "with " + str(weather_7_string))
+	hour_7.pack()
+
+	hour_8_string = str(time_store[7])
+	temp_8_string = int(api["hourly"][7]["temp"])
+	weather_8_string = api["hourly"][7]["weather"][0]["main"]
+	hour_8 = tk.Label(root, text=hour_8_string[11:16] + "	 --> 	" + str(temp_8_string) + "°C " + "with " + str(weather_8_string))
+	hour_8.pack()
+
+	hour_9_string = str(time_store[8])
+	temp_9_string = int(api["hourly"][8]["temp"])
+	weather_9_string = api["hourly"][8]["weather"][0]["main"]
+	hour_9 = tk.Label(root, text=hour_9_string[11:16] + "	 --> 	" + str(temp_9_string) + "°C " + "with " + str(weather_9_string))
+	hour_9.pack()
+
+	hour_10_string = str(time_store[9])
+	temp_10_string = int(api["hourly"][9]["temp"])
+	weather_10_string = api["hourly"][9]["weather"][0]["main"]
+	hour_10 = tk.Label(root, text=hour_10_string[11:16] + "	 --> 	" + str(temp_10_string) + "°C " + "with " + str(weather_10_string))
+	hour_10.pack()
+
+	hour_11_string = str(time_store[10])
+	temp_11_string = int(api["hourly"][10]["temp"])
+	weather_11_string = api["hourly"][10]["weather"][0]["main"]
+	hour_11 = tk.Label(root, text=hour_11_string[11:16] + "	 --> 	" + str(temp_11_string) + "°C " + "with " + str(weather_11_string))
+	hour_11.pack()
+
+	hour_12_string = str(time_store[11])
+	temp_12_string = int(api["hourly"][11]["temp"])
+	weather_12_string = api["hourly"][11]["weather"][0]["main"]
+	hour_12 = tk.Label(root, text=hour_12_string[11:16] + "	 --> 	" + str(temp_12_string) + "°C " + "with " + str(weather_12_string))
+	hour_12.pack()
 
 	print (request_address)
 
@@ -126,7 +179,7 @@ def text_runner():
 	mylabel.pack()
 
 
-restarter = ttk.Button(root, text="restart", command=restart)
+restarter = ttk.Button(root, text="Restart", command=restart)
 restarter.pack()
 
 title = tk.Label(root, text="Enter a city below")
