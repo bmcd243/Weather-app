@@ -13,6 +13,9 @@ root.title("Weather app")
 # root.configure(bg = 'black')
 root.iconbitmap('./images/rain.jpg')
 
+
+scrollbar = tk.Scrollbar(root)
+
 Images = dict()
 
 def restart():
@@ -85,7 +88,6 @@ def hourly():
 
 	for i in range(12):
 		time_store[i] = datetime.datetime.fromtimestamp(int(api["hourly"][i]["dt"]))
-	print (time_store)
 
 	intro = tk.Label(root, text="Here is the forecast for " + city.capitalize() + ":")
 	intro.pack()
@@ -167,9 +169,23 @@ def minute():
 
 	print(request_address)
 
+
+
+	listbox = tk.Listbox(root, yscrollcommand=scrollbar.set)
 	for i in range(60):
-		hey_1 = tk.Label(root, text=datetime.datetime.fromtimestamp(int(api["hourly"][i]["dt"])))
-		hey_1.pack()
+		time_store = datetime.datetime.fromtimestamp(int(api["minutely"][i]["dt"]))
+		time_store_string = str(time_store)
+		listbox.insert(END, time_store_string[11:16])
+		# hey_1 = tk.Label(root, text=time_store_string[11:16])
+		# hey_1.pack()
+
+	listbox.pack(side='left', fill='both')
+	scrollbar.config(command=listbox.yview)
+
+	scrollbar.pack(side='right', fill='y')
+
+
+
 
 
 
@@ -208,28 +224,28 @@ def yes_no_current():
 		null_entry = tk.Label(root, text="Please enter a city above")
 		null_entry.pack()
 	else:
-		command=current
+		current()
 
 def yes_no_hourly():
 	if len(e.get()) == 0:
 		null_entry = tk.Label(root, text="Please enter a city above")
 		null_entry.pack()
 	else:
-		command=hourly
+		hourly()
 
 def yes_no_minute():
 	if len(e.get()) == 0:
 		null_entry = tk.Label(root, text="Please enter a city above")
 		null_entry.pack()
 	else:
-		command=minute
+		minute()
 
 def yes_no_daily():
 	if len(e.get()) == 0:
 		null_entry = tk.Label(root, text="Please enter a city above")
 		null_entry.pack()
 	else:
-		command=daily
+		daily()
 
 
 current_clicker = ttk.Button(root, text = "Current forecast", command=yes_no_current)
