@@ -20,6 +20,7 @@ Images = dict()
 
 def restart():
 	os.execl(sys.executable, sys.executable, *sys.argv)
+	empty = ''
 
 
 
