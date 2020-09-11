@@ -14,29 +14,35 @@ root.title("Weather app")
 root.iconbitmap('./images/rain.jpg')
 
 
-main_frame = ttk.Frame(root)
-main_frame.pack(fill='both', expand=1)
+main_frame = tk.Frame(root)
 
 my_canvas = tk.Canvas(main_frame)
-my_canvas.pack(side='left', fill='both', expand=1)
 
-main_scrollbar = ttk.Scrollbar(main_frame, orient='vertical')
-main_scrollbar.pack(side='right', fill='y')
-
-my_canvas.bind('<Configure>', lambda e: my_canvas.configure(scrollregion = my_canvas.bbox("all"))) #<Configure> is an event that is triggered everytime my_canvas changes
+main_scrollbar = tk.Scrollbar(main_frame, orient='vertical', command=my_canvas.yview)
 
 second_frame = tk.Frame(my_canvas)
+
+my_canvas.bind("<Configure>", lambda e: my_canvas.configure(scrollregion = my_canvas.bbox("all"))) #<Configure> is an event that is triggered everytime my_canvas changes
+
+
 
 my_canvas.create_window((0,0), window=second_frame, anchor="nw")
 my_canvas.configure(yscrollcommand=main_scrollbar.set)
 
+main_frame.pack(fill='both', expand=1)
 
-Images = dict()
+my_canvas.pack(side='left', fill='both', expand=True)
+
+main_scrollbar.pack(side='right', fill='y')
+
+
+
 
 def restart():
 	os.execl(sys.executable, sys.executable, *sys.argv)
-	empty = ''
 
+
+Images = dict()
 
 
 def display_photo(row=0, column=0):
@@ -49,7 +55,7 @@ def display_photo(row=0, column=0):
 		photo = tk.Label(second_frame, image = image_1)
 		photo.image = image_1
 		# photo.grid(row=2, column=8, columnspan=3)
-		photo.pack(second_frame)
+		photo.pack()
 
 	text_runner()
 
@@ -200,9 +206,11 @@ def minute():
 	listbox.pack(fill='both')
 	minute_scrollbar.config(command=listbox.yview)
 
-	minute_scrollbar.pack(side='right', fill='y')
 	my_frame.pack()
 	listbox.pack(pady=15)
+	minute_scrollbar.pack(side='right', fill='y')
+	
+	
 
 
 
