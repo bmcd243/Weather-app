@@ -35,7 +35,7 @@ my_canvas.pack(side='left', fill='both', expand=True)
 
 main_scrollbar.pack(side='right', fill='y')
 
-
+second_frame.pack()
 
 
 def restart():
@@ -177,8 +177,8 @@ def hourly():
 def minute():
 	global city
 
-	my_frame = tk.Frame(second_frame)
-	minute_scrollbar = tk.Scrollbar(my_frame, orient='vertical', command=my_canvas.yview)
+	minute_frame = tk.Frame(second_frame)
+	minute_scrollbar = tk.Scrollbar(minute_frame, orient='vertical', command=my_canvas.yview)
 
 	city = e.get()
 	geo_address = "http://www.mapquestapi.com/geocoding/v1/address?key=BYpND8FnPOffqVr9AUAYb3flHyCWLeLk&location=" + city
@@ -196,7 +196,7 @@ def minute():
 
 
 
-	listbox = tk.Listbox(my_frame, width=20, height=500, yscrollcommand=minute_scrollbar.set)
+	listbox = tk.Listbox(minute_frame, width=20, height=500, yscrollcommand=minute_scrollbar.set)
 	for i in range(60):
 		time_store = datetime.datetime.fromtimestamp(int(api["minutely"][i]["dt"]))
 		time_store_string = str(time_store)
@@ -206,7 +206,7 @@ def minute():
 	listbox.pack(fill='both')
 	minute_scrollbar.config(command=listbox.yview)
 
-	my_frame.pack()
+	minute_frame.pack()
 	listbox.pack(pady=15)
 	minute_scrollbar.pack(side='right', fill='y')
 	
@@ -222,7 +222,45 @@ def minute():
 
 
 def daily():
-	empty = ""
+
+	daily_frame = tk.Frame(second_frame)
+	daily_scrollbar = tk.Scrollbar(daily_frame)
+
+
+	city = e.get()
+	geo_address = "http://www.mapquestapi.com/geocoding/v1/address?key=BYpND8FnPOffqVr9AUAYb3flHyCWLeLk&location=" + city
+	geo_request = requests.get(geo_address)
+	geo_api = json.loads(geo_request.content)
+
+	lat_coordinates = geo_api["results"][0]["locations"][0]["latLng"]["lat"]
+	long_coordinates = geo_api["results"][0]["locations"][0]["latLng"]["lng"]
+
+	request_address = "https://api.openweathermap.org/data/2.5/onecall?lat=" + str(lat_coordinates) + "&lon=" + str(long_coordinates) + "&exclude=hourly,minutely&units=metric&appid=0a0699452f695d2f9f82b65af024a134"
+	api_request = requests.get(request_address)
+	api = json.loads(api_request.content)
+
+	print(request_address)
+
+	class daily_data:
+			def __init__(self, mini, maxi, weather):
+				self.mini = mini
+				self.max = maxi
+				self.weather = weather
+
+
+	# time_store = datetime.datetime.fromtimestamp(int(api["daily"][i]["dt"]))
+
+		listbox = tk.Listbox(daily_frame, width=20, height=500, yscrollcommand=daily_scrollbar.set)
+		for i in range(10):
+		dt_store = datetime.datetime.fromtimestamp(int(api["daily"][i]["dt"]))
+		day_store_string = str(dt_store)
+		listbox.insert(END, day_store_string)
+
+	daily_frame.pack()
+	listbox.pack(pady=15)
+	daily_scrollbar.config(command=listbox.yview)
+	minute_scrollbar.pack(side='right', fill='y')
+		
 		
 
 def text_runner():
