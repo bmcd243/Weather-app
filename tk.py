@@ -194,14 +194,17 @@ def minute():
 
 	print(request_address)
 
+	intro = tk.Label(second_frame, text='Below is the precipitation in ' + city.capitalize() + ' for the next hour.')
+	intro.pack()
 
 
-	listbox = tk.Listbox(minute_frame, width=20, height=500, yscrollcommand=minute_scrollbar.set)
+
+	listbox = tk.Listbox(minute_frame, width=20, yscrollcommand=minute_scrollbar.set)
 	for i in range(60):
 		time_store = datetime.datetime.fromtimestamp(int(api["minutely"][i]["dt"]))
 		time_store_string = str(time_store)
 		precip_store = int(api["minutely"][i]["precipitation"])
-		listbox.insert(i-1, time_store_string[11:16] + "	-->		" + str(precip_store) + "%")
+		listbox.insert(END, time_store_string[11:16] + "	-->		" + str(precip_store) + "%")
 
 	listbox.pack(fill='both')
 	minute_scrollbar.config(command=listbox.yview)
@@ -222,6 +225,8 @@ def minute():
 
 
 def daily():
+
+	global city
 
 	daily_frame = tk.Frame(second_frame)
 	daily_scrollbar = tk.Scrollbar(daily_frame)
@@ -250,16 +255,18 @@ def daily():
 
 	# time_store = datetime.datetime.fromtimestamp(int(api["daily"][i]["dt"]))
 
-		listbox = tk.Listbox(daily_frame, width=20, height=500, yscrollcommand=daily_scrollbar.set)
-		for i in range(10):
+	listbox = tk.Listbox(daily_frame, width=20, height=40, yscrollcommand=daily_scrollbar.set)
+	for i in range(7):
 		dt_store = datetime.datetime.fromtimestamp(int(api["daily"][i]["dt"]))
 		day_store_string = str(dt_store)
-		listbox.insert(END, day_store_string)
+		to_weekday = dt_store.weekday()
+		to_month = dt_store.month()
+		listbox.insert('end', to_weekday + day_store_string[8:10] + "th" + to_month)
 
 	daily_frame.pack()
 	listbox.pack(pady=15)
 	daily_scrollbar.config(command=listbox.yview)
-	minute_scrollbar.pack(side='right', fill='y')
+	daily_scrollbar.pack(side='right', fill='y')
 		
 		
 
@@ -270,7 +277,7 @@ def text_runner():
 
 
 
-# START_OF_PROGRAM
+# ENTRY
 
 info = tk.Label(second_frame, text="Press Restart to clear the screen.")
 info.pack()
