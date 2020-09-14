@@ -9,6 +9,7 @@ A GUI made with Python Tkinter to display the weather forecast using an API from
 * Daily = ⛔ Not started
 
 <h2> Running the program </h2>
+
 1. Install Python3 if you
 2. Clone the repo onto your computer
 3. Install all modules used - from bash terminal
