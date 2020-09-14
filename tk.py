@@ -6,6 +6,8 @@ import requests
 import json
 from PIL import ImageTk, Image
 import datetime
+import calendar
+
 
 root = tk.Tk()
 root.geometry("800x600")
@@ -72,7 +74,7 @@ def current():
 	global temp
 
 	city = e.get()
-	request_address = "https://api.openweathermap.org/data/2.5/weather?q=" + city + "&units=metric&appid=0a0699452f695d2f9f82b65af024a134"
+	request_address = "https://api.openweathermap.org/data/2.5/weather?q=" + city.capitalize() + "&units=metric&appid=0a0699452f695d2f9f82b65af024a134"
 	api_request = requests.get(request_address)
 	api = json.loads(api_request.content)
 
@@ -111,7 +113,7 @@ def hourly():
 	for i in range(12):
 		time_store[i] = datetime.datetime.fromtimestamp(int(api["hourly"][i]["dt"]))
 
-	intro = tk.Label(second_frame, text="Here is the forecast for " + city.capitalize() + ":")
+	intro = tk.Label(second_frame, text="Here is the forecast in " + city.capitalize() + " for the next 12 hours:")
 	intro.pack()
 
 	spacing = tk.Label(second_frame, text="")
@@ -204,7 +206,7 @@ def minute():
 		time_store = datetime.datetime.fromtimestamp(int(api["minutely"][i]["dt"]))
 		time_store_string = str(time_store)
 		precip_store = int(api["minutely"][i]["precipitation"])
-		listbox.insert(END, time_store_string[11:16] + "	-->		" + str(precip_store) + "%")
+		listbox.insert('end', time_store_string[11:16] + "	-->		" + str(precip_store) + "%")
 
 	listbox.pack(fill='both')
 	minute_scrollbar.config(command=listbox.yview)
@@ -226,10 +228,39 @@ def minute():
 
 def daily():
 
+	intro = tk.Label(second_frame, text="Press Select to see the forecast on your chosen date.")
+	intro.pack()
+
 	global city
 
+	def select():
+
+		from datetime import datetime
+
+		selected = listbox.get('anchor')
+		print(selected)
+
+		now = datetime.now()
+
+		selected_string = str(selected)
+
+
+
+		chosen_date = str(now.year()) + selected_string[0:2]
+		print(chosen_date)
+
+		returner = tk.Label(second_frame, text="The weather in" + city + "on" + selected + "is")
+		returner.pack()
+	
 	daily_frame = tk.Frame(second_frame)
 	daily_scrollbar = tk.Scrollbar(daily_frame)
+
+	select_button = ttk.Button(second_frame, text="Select", command=select)
+	select_button.pack()
+
+
+
+		
 
 
 	city = e.get()
@@ -255,13 +286,14 @@ def daily():
 
 	# time_store = datetime.datetime.fromtimestamp(int(api["daily"][i]["dt"]))
 
-	listbox = tk.Listbox(daily_frame, width=20, height=40, yscrollcommand=daily_scrollbar.set)
+	listbox = tk.Listbox(daily_frame, width=30, height=20, yscrollcommand=daily_scrollbar.set)
 	for i in range(7):
 		dt_store = datetime.datetime.fromtimestamp(int(api["daily"][i]["dt"]))
 		day_store_string = str(dt_store)
-		to_weekday = dt_store.weekday()
-		to_month = dt_store.month()
-		listbox.insert('end', to_weekday + day_store_string[8:10] + "th" + to_month)
+		to_weekday = dt_store.strftime('%A')
+		print (to_weekday)
+		to_month = dt_store.strftime('%B')
+		listbox.insert('end', str(day_store_string[8:10]) + "th " +  str(to_month) + " (" + str(to_weekday) + ")")
 
 	daily_frame.pack()
 	listbox.pack(pady=15)
@@ -339,4 +371,4 @@ daily_clicker.pack()
 # print(daily_clicker.grid_size())
 
 
-second_frame.mainloop()
+root.mainloop()
