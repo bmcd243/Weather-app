@@ -18,4 +18,4 @@ A GUI made with Python Tkinter to display the weather forecast using an API from
  c. `pip3 install tk`
  There may be other packages that need installing...
  
-4. Run `python3 tk.py` from the command line.
+4. Run `python3 tk.py` from the command line and the GUI should appear.
