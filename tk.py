@@ -236,6 +236,10 @@ def daily():
 	def select():
 
 		from datetime import datetime
+		import time
+		from time import strptime
+
+		month = striptime(selected[5:8]).tm_mon
 
 		selected = listbox.get('anchor')
 		print(selected)
@@ -244,12 +248,24 @@ def daily():
 
 		selected_string = str(selected)
 
+		year = datetime.now().strftime('%Y')
 
 
-		chosen_date = str(now.year()) + selected_string[0:2]
+
+
+		chosen_date = year + selected_string[0:2]
 		print(chosen_date)
 
-		returner = tk.Label(second_frame, text="The weather in" + city + "on" + selected + "is")
+
+		s = "01/12/2011"
+
+		s = selected_string[0:2] + "/" + month + "/" + "2020"
+		print(s)
+
+		to_timestamp = time.mktime(datetime.strptime(s, "%d/%m/%Y").timetuple())
+		print (to_timestamp)
+
+		returner = tk.Label(second_frame, text="The weather in " + city.capitalize() + " on " + selected + " is" )
 		returner.pack()
 	
 	daily_frame = tk.Frame(second_frame)
@@ -286,7 +302,7 @@ def daily():
 
 	# time_store = datetime.datetime.fromtimestamp(int(api["daily"][i]["dt"]))
 
-	listbox = tk.Listbox(daily_frame, width=30, height=20, yscrollcommand=daily_scrollbar.set)
+	listbox = tk.Listbox(daily_frame, width=30, height=10, yscrollcommand=daily_scrollbar.set)
 	for i in range(7):
 		dt_store = datetime.datetime.fromtimestamp(int(api["daily"][i]["dt"]))
 		day_store_string = str(dt_store)
