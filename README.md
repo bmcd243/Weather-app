@@ -3,10 +3,10 @@ A GUI made with Python Tkinter to display the weather forecast using an API from
 
 ## Status
 
-* Current weather = ✅  working
-* By hour = ✅  working
-* By minute = ✅  working
-* Daily = 🚧 In Progress
+* Current weather = ✅   working
+* By hour = ✅   working
+* By minute = ✅   working
+* Daily = 🚧   In Progress
 
 ## Running the program
 
